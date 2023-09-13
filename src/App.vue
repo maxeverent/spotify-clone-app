@@ -1,26 +1,41 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="background">
+    <router-view></router-view>
+  </div>
+  <audio id="player"/>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script lang="ts" setup>
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+import { onMounted } from 'vue';
+import { useStore } from './store';
+
+const store = useStore()
+
+onMounted(async() => {
+  const player = document.getElementById('player') as HTMLAudioElement;
+  player.volume = 0.1
+  await store.dispatch('checkAuth').catch((e) => {
+    console.log(e)
+  })
+})
+
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
+body {
+  margin: 0;
+  padding: 0;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@300;700&display=swap');
+
+.background {
+  background-color: gray;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
 </style>
